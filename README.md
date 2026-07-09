@@ -36,6 +36,21 @@ Copy-Item .\AGENTS.md C:\Users\<你的用户名>\.config\mimocode\AGENTS.md
 Copy-Item C:\Users\<你的用户名>\.codex\AGENTS.md C:\Users\<你的用户名>\.codex\AGENTS.md.bak
 ```
 
+## 可选依赖
+
+这份仓库本质上是一份提示词模板，复制 `AGENTS.md` 不会自动安装任何命令行工具或 MCP 工具。
+
+模板中提到的 CodeGraph 是可选的外部代码分析能力，需要你在本机或对应 AI 编码工具环境中额外安装，并确保 `codegraph` 命令可用。可以用下面的命令做最小检查：
+
+```powershell
+codegraph --version
+codegraph status
+```
+
+如果你的环境没有安装 CodeGraph，建议删除 `AGENTS.md` 里的 `CodeGraph` 章节，或改成“仅在 CodeGraph 可用时使用”。否则 AI 助手可能会尝试执行不存在的 `codegraph` 命令。
+
+`.wolf/` 不需要额外安装，它只是一个可选的项目记忆目录约定。只有当你希望多个 AI 编码工具共享项目上下文时，才需要保留相关章节。
+
 ## 包含哪些规则
 
 - 中文优先和国内用户语境。
@@ -45,7 +60,7 @@ Copy-Item C:\Users\<你的用户名>\.codex\AGENTS.md C:\Users\<你的用户名>
 - 写 SQL 和数据访问代码时默认考虑性能，避免隐式全表扫描、无边界查询和 N+1 查询。
 - 保留用户已有代码和项目风格，不顺手重构无关内容。
 - 使用 `.wolf/` 作为源码项目的跨工具记忆层。
-- 只在源码任务中使用 CodeGraph，并明确 CodeGraph 与 `rg` 的分工。
+- 可选使用 CodeGraph 做源码结构分析，并明确 CodeGraph 与 `rg` 的分工。
 - 当前信息主动检索，稳定知识直接回答。
 - 对版权、高风险、安全和隐私问题保持边界。
 
@@ -66,7 +81,7 @@ Copy-Item C:\Users\<你的用户名>\.codex\AGENTS.md C:\Users\<你的用户名>
 
 如果你只想保留最核心行为，可以从 [`templates/minimal.md`](./templates/minimal.md) 开始。
 
-如果你的工具不支持 CodeGraph 或 `.wolf/`，可以删除对应章节。  
+如果你的工具不支持 CodeGraph 或 `.wolf/`，可以删除对应章节。尤其是 CodeGraph：没有额外安装前，不建议保留强制执行 `codegraph` 命令的规则。
 如果你的团队有固定数据库规范、测试策略或代码风格，建议把这些规则追加到 `编码准则` 后面。
 
 ## 设计原则
@@ -82,4 +97,3 @@ Copy-Item C:\Users\<你的用户名>\.codex\AGENTS.md C:\Users\<你的用户名>
 ## License
 
 MIT
-
